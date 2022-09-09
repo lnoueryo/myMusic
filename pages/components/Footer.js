@@ -12,6 +12,7 @@ const MINIMUM_MUSIC_ID = 1;
 export default function Footer() {
   const dispatch = useDispatch();
   const duration = useSelector(state => state.audio.duration);
+  const selectedMusic = useSelector(state => state.audio.selectedMusic);
   const music = useSelector(state => state.audio.music);
   const currentTime = useSelector(state => state.audio.currentTime);
   const repeatToggle = useSelector(state => state.audio.repeatToggle);
@@ -69,7 +70,7 @@ export default function Footer() {
       <footer className={styles.footer}>
         {
           audio &&
-        <audio ref={audio} src={'/' + (store.getState().audio.selectedMusic.title) + '.mp3'}>
+        <audio ref={audio} src={'/' + (selectedMusic?.title) + '.mp3'}>
           あなたのブラウザーは <code>audio</code>要素をサポートしていません。
         </audio>
         }
