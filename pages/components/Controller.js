@@ -6,15 +6,13 @@ import { mdiPlay, mdiFastForward, mdiRewind, mdiPause, mdiSkipNext, mdiSkipPrevi
 import { useEffect, useState } from 'react';
 import store from '../../store';
 
-const MINIMUM_MUSIC_ID = 1;
-
-export default function Controller({audio}) {
+export default function Controller({audio, skipMusic}) {
   const dispatch = useDispatch();
   const [playToggle, setPlayToggle] = useState(true);
 
   useEffect(() => {
     if(audio) setPlayToggle(audio.paused);
-  }, [audio.paused])
+  }, [audio?.paused])
 
   const onPlayOrPause = (audio) => {
     playToggle ? audio.play() : audio.pause();
@@ -27,16 +25,6 @@ export default function Controller({audio}) {
     const action = changeCurrentTime(audio.currentTime);
     dispatch(action);
     return audio.currentTime;
-  }
-
-  const skipMusic = ({selectedMusic, music}, nextNum) => {
-    let nextId = selectedMusic.id + nextNum;
-    if(nextId == 0) nextId = music.length;
-    else if(music.length < nextId) nextId = MINIMUM_MUSIC_ID;
-    const nextMusic = music.find(v => v.id == nextId);
-    const action = selectMusic(nextMusic);
-    dispatch(action);
-    return nextMusic;
   }
 
   return (
