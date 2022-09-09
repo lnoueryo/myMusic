@@ -8,12 +8,12 @@ export default function Card(props) {
     dispatch(action)
   }
   const changeTitle = (title) => {
-    return title.replace('/-/g', ' ');
+    return title || title.replace(/-/g, ' ');
   }
   return (
     <div className={styles.grid}>
       <div className={styles.card} onClick={() => onSelectMusic(props)}>
-        <h2>{props.title && changeTitle(props.title)}</h2>
+        <h2>{props?.title && changeTitle(props.title)}</h2>
         <p>Find in-depth information about Next.js features and API.</p>
       </div>
     </div>

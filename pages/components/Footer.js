@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import styles from '../../styles/Home.module.css'
 import store from '../../store'
 import Icon from '@mdi/react'
-import { mdiPlay, mdiFastForward, mdiRewind, mdiPause, mdiSkipNext, mdiSkipPrevious, mdiRepeatOnce   } from '@mdi/js';
+import { mdiPlay, mdiFastForward, mdiRewind, mdiPause, mdiSkipNext, mdiSkipPrevious, mdiRepeatOnce } from '@mdi/js';
 import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux'
 import { changeDuration, changeCurrentTime, selectMusic, changeRepeatToggle } from "../../store/modules/audio";
@@ -17,14 +17,24 @@ export default function Footer() {
   const audio = useRef();
   const rangeBarFrame = useRef();
   const rangeBar = useRef();
+  const randomNum = Math.floor(Math.random() * music.length);
+  const firstMusic = music[randomNum];
   useEffect(() => {
+    let clean = false;
     if(audio) {
+      const action = selectMusic(firstMusic)
+      dispatch(action)
+      audio.current.src = firstMusic.title
       audio.current.addEventListener('timeupdate', (e) => {
         const action = changeCurrentTime(e.target.currentTime)
         dispatch(action)
         rangeBar.current.style.width = (Math.round((100 / audio.current.duration * e.target.currentTime) * 5) / 5) + '%'
       });
       audio.current.addEventListener('durationchange', () => {
+        if(!clean) {
+          clean = true
+          return;
+        }
         play(audio.current)
       });
       audio.current.addEventListener('ended', () => {
@@ -32,7 +42,7 @@ export default function Footer() {
         skipMusic(1)
       });
     }
-  }, [audio]);
+  }, []);
   const play = (audio) => {
     rangeBar.current.style.width = '0%'
     const action = changeDuration(audio.duration);
@@ -178,30 +188,3 @@ export default function Footer() {
     </>
   )
 }
-// {/* <div>
-//   <span class="star5_rating ng-scope" data-rate="1" ng-if="$ctrl.isField('評価')"></span>
-//   <span class="ng-binding">1 年前</span>
-// </div> */}
-// .star5_rating {
-//   position: relative;
-//   z-index: 0;
-//   display: inline-block;
-//   white-space: nowrap;
-//   margin-right: 10px;
-//   color: #CCCCCC;
-// }
-// .star5_rating:before, .star5_rating:after {
-//   content: '★★★★★';
-// }
-// .star5_rating:after {
-//   position: absolute;
-//   z-index: 1;
-//   top: 0;
-//   left: 0;
-//   overflow: hidden;
-//   white-space: nowrap;
-//   color: #ffcf32;
-// }
-// .star5_rating[data-rate="1"]:after {
-//   width: 20%;
-// }

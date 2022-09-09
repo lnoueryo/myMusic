@@ -1,9 +1,11 @@
 import Head from 'next/head'
 import styles from '../styles/Home.module.css'
-import { useSelector } from 'react-redux';
+import { useWindowSize } from 'react-use';
+import { useEffect } from 'react';
 import store from '../store'
 import Footer from './components/Footer'
 import Card from './components/Card'
+
 export default function Home() {
   // https://gray-code.com/javascript/property-and-method-and-event-list-of-audioelement-and-videoelement/
 {/* <fieldset>
@@ -30,13 +32,20 @@ export default function Home() {
   <label orient='90deg' type='range' for="band" before="5" after="-5">0</label>
 
 </fieldset> */}
-  const state = store.getState()
-  const selectedMusic = useSelector(state => state.audio.duration);
-  // const dispatch = useDispatch()
-  // const onSelectMusic = (src) => {
-  //   const action = changeAudioSrc(src)
-  //   dispatch(action)
-  // }
+  const { width, height } = useWindowSize();
+  let dummyCards = []
+  useEffect(() => {
+    let dummyCardsNum = 0;
+    if(width > 1159) dummyCardsNum = 4;
+    else if(width > 1059) dummyCardsNum = 3;
+    else if(width > 726) dummyCardsNum = 2;
+    else return;
+    const cardNum = store.getState().audio.music.length % dummyCardsNum;
+    for (let i = 0; i < dummyCardsNum - cardNum; i++) {
+      dummyCards.push(<Card />)
+    }
+  }, [width, height]);
+  const state = store.getState();
   return (
       <div className={styles.container}>
         <Head>
@@ -46,97 +55,14 @@ export default function Home() {
         </Head>
 
         <main className={styles.main}>
-        {selectedMusic}
-          {
-            state.audio.songs.map(song => <Card key={song.id} {...song} />)
-          }
-          
-          {/* <div className={styles.grid}>
-            <div className={styles.card} onClick={onSelectMusic('sakura.mp3')}>
-              <h2>Documentation &rarr;</h2>
-              <p>Find in-depth information about Next.js features and API.</p>
-            </div>
-          </div> */}
-
-          <p className={styles.description}>
-            Get started by editing{' '}
-            <code className={styles.code}>pages/index.js</code>
-          </p>
-
-          <div className={styles.grid}>
-            <a href="https://nextjs.org/docs" className={styles.card}>
-              <h2>Documentation &rarr;</h2>
-              <p>Find in-depth information about Next.js features and API.</p>
-            </a>
-
-            <a href="https://nextjs.org/learn" className={styles.card}>
-              <h2>Learn &rarr;</h2>
-              <p>Learn about Next.js in an interactive course with quizzes!</p>
-            </a>
-
-            <a
-              href="https://github.com/vercel/next.js/tree/canary/examples"
-              className={styles.card}
-            >
-              <h2>Examples &rarr;</h2>
-              <p>Discover and deploy boilerplate example Next.js projects.</p>
-            </a>
-
-            <a
-              href="https://vercel.com/new?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-              className={styles.card}
-            >
-              <h2>Deploy &rarr;</h2>
-              <p>
-                Instantly deploy your Next.js site to a public URL with Vercel.
-              </p>
-            </a>
+          <div style={{display: 'flex', flexWrap: 'wrap', justifyContent: 'center'}}>
+            {
+              state.audio.music.map(song => <Card key={song.id} {...song} />)
+            }
+            {dummyCards.map(card => card)}
           </div>
         </main>
 
-        {/* <footer className={styles.footer}>
-          <audio controls ref={audio} src={'/' + audioSrc}>
-            あなたのブラウザーは <code>audio</code>要素をサポートしていません。
-          </audio>
-          <div className={styles.range}>
-            <input type="range" min={MIN_RANGE} max={MAX_RANGE} ref={range} step="1" onChange={onChangeTime} />
-          </div>
-          <div>
-            <div className={styles['song-name']}>
-              {songName}
-            </div>
-            <div>
-              <Icon path={mdiRewind}
-                className={styles['controller-icon']}
-                size={2}
-                color="red"
-              />
-              {
-                playToggle ?
-                <Icon path={mdiPlay}
-                  className={styles['controller-icon']}
-                  size={2}
-                  color="red"
-                  onClick={onPlayOrPause}
-                />
-                :
-                <Icon path={mdiPause}
-                  className={styles['controller-icon']}
-                  size={2}
-                  color="red"
-                  onClick={onPlayOrPause}
-                />
-
-              }
-              <Icon path={mdiFastForward}
-                className={styles['controller-icon']}
-                size={2}
-                color="red"
-              />
-            </div>
-          </div>
-        </footer> */}
-        {/* {state.audio.audioSrc && <Footer key="A" />} */}
         <Footer />
       </div>
   )
