@@ -18,7 +18,7 @@ const music = [
 const audio = createSlice({
   name: 'audio',
   initialState: {
-    selectedMusic: '',
+    selectedMusic: {},
     duration: 0,
     currentTime: 0,
     repeatToggle: false,
