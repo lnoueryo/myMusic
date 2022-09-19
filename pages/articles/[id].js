@@ -16,7 +16,7 @@ const markdownComponents = {
 
     const code = pre.children[0];
     // 正規表現で"language-言語名:ファイル名"をマッチする
-    const matchResult = code.props.className.match(/language-(\w+)(:(.+))?/);
+    const matchResult = code.props.className?.match(/language-(\w+)(:(.+))?/);
     const language = matchResult?.[1] || "";
     const filename = matchResult?.[3] || undefined;
 
@@ -34,30 +34,22 @@ const markdownComponents = {
     );
   },
 };
-export default function Home() {
-  const ref = useRef()
-  const [markdown, setMarkdown] = useState(null);
-  fetch( "/a.txt" ).then( res => res.text() ).then( text => {
-      setMarkdown(text);
-    });
-  const router = useRouter()
-  const { id, lang } = router.query
-  const article = articles.find(article => article.id == id)
+export default function Articles(article) {
   return (
     <div className={styles.container}>
       {
         article &&
-      <div style={{width: '100%', paddingRight: '270px', maxWidth: '900px', margin: 'auto', position: 'relative', display: 'flex'}}>
+      <div style={{width: '100%', paddingRight: '300px', maxWidth: '1000px', margin: 'auto', position: 'relative', display: 'flex'}}>
         <div style={{width: '100%', backgroundColor: 'white', padding: '30px', borderRadius: '3px', filter: 'drop-shadow(0px 0px 3px rgba(0,0,0,.1))'}}>
           <h2 style={{fontWeight: 'bold', fontSize: '20px', marginBottom: '20px'}}>{article.title}</h2>
           <p style={{fontSize: '14px', marginBottom: '20px'}}>{article.description}</p>
             <ReactMarkdown
             components={markdownComponents}
             rehypePlugins={[rehypeRaw]}
-            > {markdown}
+
+            >
+              {article.content}
             </ReactMarkdown>
-          <div>
-          </div>
         </div>
         <div style={{position: 'fixed', padding: '15px', width: '250px', minHeight: '150px', right: '8rem', backgroundColor: 'white', borderRadius: '3px', filter: 'drop-shadow(0px 0px 3px rgba(0,0,0,.1))'}}>
           <Flex style={{marginBottom: '10px'}}>
@@ -89,3 +81,12 @@ export default function Home() {
   )
 }
 
+import axios from '../../modules/httpclient'
+Articles.getInitialProps = async ({query}) => {
+  const response = await axios.get('/api/blog', {
+    params: {
+      id: query.id
+    }
+  })
+  return response.data[0];
+}
