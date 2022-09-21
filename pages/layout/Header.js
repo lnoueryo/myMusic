@@ -21,7 +21,10 @@ export default function Header() {
   return (
     <div style={{marginBottom: '20px'}}>
       <header style={{padding: '24px 8rem', marginBottom: '20px', background: '#333', display: 'flex', alignItems: 'center', justifyContent: 'spaceBetween', filter: 'drop-shadow(0px 0px 3px rgba(0,0,0,.5))'}}>
-        <div><img src="https://fastcoding.jp/blog/wp-content/themes/fcvanilla/img/fc_logo_blog.svg" alt="" /></div>
+        <div>
+          {/* <img src="https://fastcoding.jp/blog/wp-content/themes/fcvanilla/img/fc_logo_blog.svg" alt="" /> */}
+          <span style={{color: 'white'}}>Golang</span>
+        </div>
       </header>
       <Breadcrumb style={{padding: '12px 8rem', }} fontWeight='medium' fontSize='sm'>
         <BreadcrumbItem>

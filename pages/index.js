@@ -2,6 +2,7 @@ import styles from '../styles/Home.module.css'
 import CategoryCards from './components/CategoryCards'
 import axios from '/modules/httpclient'
 export default function Home(categories) {
+  console.log(categories)
   return (
     <div className={styles.container}>
       {

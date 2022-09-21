@@ -26,7 +26,7 @@ const index = async(req, res) => {
   let response;
   try {
     response = await db.query(`
-      SELECT * FROM blogs;
+      SELECT * FROM blogs ORDER BY id DESC;
     `)
     res.status(200).json(response)
   } catch (error) {
@@ -38,19 +38,24 @@ const index = async(req, res) => {
 const create = async(req, res) => {
   try {
     let response;
+    const queries = []
     const content = req.body.content.replace(/"/g, '\"\"').replace(/'/g, '\'\'')
     const blogQuery =
     `
-    INSERT INTO blogs (title, description, content)
-    VALUES ("${req.body.title}", "${req.body.description}", "${content}");
+    INSERT INTO blogs (title, description, content, src)
+    VALUES ("${req.body.title}", "${req.body.description}", "${content}", "${req.body.src}");
     `
-    let tagQuery = 'INSERT INTO blogs_tags (blog_id, tag_id) VALUES'
-    req.body.tags.forEach((tag, index) => {
-      tagQuery += ` (LAST_INSERT_ID(), ${tag.id})`
-      if(req.body.tags.length - 1 == index) return tagQuery += ` ;`
-      tagQuery += ','
-    });
-    response = await db.transaction([blogQuery, tagQuery])
+    queries.push(blogQuery)
+    if(req.body.tags.length != 0) {
+      let tagQuery = 'INSERT INTO blogs_tags (blog_id, tag_id) VALUES'
+      req.body.tags.forEach((tag, index) => {
+        tagQuery += ` (LAST_INSERT_ID(), ${tag.id})`
+        if(req.body.tags.length - 1 == index) return tagQuery += ` ;`
+        tagQuery += ','
+      });
+      queries.push(tagQuery)
+    }
+    response = await db.transaction(queries)
     res.status(200).json(response)
   } catch (error) {
     console.log(error)
@@ -92,9 +97,10 @@ const update = async(req, res) => {
     if(req.body.tags.length - 1 == index) return tagQuery += ` ON DUPLICATE KEY UPDATE blog_id = ${req.body.id};`
     tagQuery += ','
   });
+  const date = new Date(req.body.created_at).toISOString().replace(/T/, ' ').replace(/\..+/, '')
   let blogQuery =
   `
-  UPDATE blogs SET title = "${req.body.title}", description = "${req.body.description}", content = "${content}" WHERE id = ${req.body.id};
+  UPDATE blogs SET title = "${req.body.title}", description = "${req.body.description}", content = "${content}", src = "${req.body.src}", created_at = "${date}" WHERE id = ${req.body.id};
   `
   try {
     response = await db.transaction([deleteTagQuery, blogQuery, tagQuery])

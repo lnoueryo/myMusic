@@ -15,7 +15,7 @@ export default function CategoryCards(category) {
               return (
                 <div key={tag.id} onClick={() => movePage(category.name, tag)} style={{width: '100%', padding: '4px', maxWidth: '150px', backgroundColor: '#dcdfea', display: 'flex', justifyContent: 'center', alignItems: 'center', margin: '15px', position: 'relative'}}>
                   <span style={{position: 'absolute', right: 0, bottom: 0, backgroundColor: '#000000b8', color: 'white', minWidth: '100%', fontSize: '13px', padding: '0 5px', textAlign: 'center'}}>{category?.title}</span>
-                  <Image src={`/${category.name}/${tag.src}`} />
+                  <Image src={`https://storage.googleapis.com/tech-blog-static/${category.name.toLowerCase()}/${tag.src}`} />
                 </div>
               )
             })

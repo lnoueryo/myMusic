@@ -3,21 +3,31 @@ import { Avatar, Box, Badge, Text, Textarea, Button, useToast, Image } from '@ch
 import ReactMarkdown from "react-markdown";
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter'
 import rehypeRaw from "rehype-raw";
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import axios from '/modules/httpclient';
 import AlertDialog from '../../components/AlertDialog';
 import SelectTag from '../../components/SelectTag';
+import CropperModal from '../../components/CropperModal';
 import Icon from '@mdi/react'
 import { mdiCloseCircleOutline  } from '@mdi/js';
+import { useRouter } from 'next/router';
+
 
 export default function CreateArticle(props) {
+  const imageRef = useRef(null);
+  const router = useRouter()
   const allTags = Object.values(props);
   const [title, setTitle] = useState()
   const [description, setDescription] = useState()
   const [content, setContent] = useState()
   const [tags, setTags] = useState([])
+  const [newSrc, setNewSrc] = useState('')
   const toast = useToast();
+
   const create = async(params) => {
+    const srcParams = {src: '', newSrc: params['newSrc'], isDelete: false}
+    const res = await saveImage(srcParams);
+    params['src'] = res.data.src;
     const toastObl = {
       title: 'Success',
       description: '更新しました。',
@@ -33,10 +43,16 @@ export default function CreateArticle(props) {
       toastObl.description = '行進失敗しました。'
       toastObl.status = 'error'
     }
-    toast(toastObl)
+    toast(toastObl);
+    router.push('/admin');
   }
 
-  const unselectedTags = (unselectedTags) => {
+  const saveImage = async params => {
+    const response = await axios.post('/api/storage', params);
+    return response;
+  }
+
+  const unselectedTags = (unselectedTags, tags) => {
     let set = new Set(tags.map(tag => tag.id));
     return unselectedTags.filter(unselectedTag => {
       return !set.has(unselectedTag.id)
@@ -52,25 +68,55 @@ export default function CreateArticle(props) {
     const filteredTags = tags.filter(tag => tag.id != unneededTag.id)
     setTags(filteredTags)
   }
+
   return (
     <div className={styles.container}>
       {
         <div style={{width: '100%', maxWidth: '1000px', margin: 'auto', position: 'relative', }}>
-          <div style={{width: '100%%', backgroundColor: 'white', padding: '30px', marginBottom: '20px', borderRadius: '3px', filter: 'drop-shadow(0px 0px 3px rgba(0,0,0,.1))'}}>
-              <div style={{marginBottom: '20px'}}>
-                <Text mb='8px'>タイトル</Text>
-                <Textarea
-                  value={title}
-                  onChange={(e) => setTitle(e.target.value)}
-                  placeholder='Here is a sample placeholder'
-                  size='sm'
-                ></Textarea>
+          <div style={{width: '100%%', backgroundColor: 'white', padding: '30px', marginBottom: '20px', filter: 'drop-shadow(0px 0px 3px rgba(0,0,0,.1))'}}>
+            <div style={{display: 'flex'}}>
+              <div style={{width: '100%'}}>
+                <div style={{marginBottom: '20px'}}>
+                  <Text mb='8px'>タイトル</Text>
+                  <Textarea
+                    value={title}
+                    onChange={(e) => setTitle(e.target.value)}
+                    placeholder='Here is a sample placeholder'
+                    size='sm'
+                  ></Textarea>
+                </div>
+                <div style={{marginBottom: '20px'}}>
+                  <Text mb='8px'>背景</Text>
+                  <Textarea
+                    value={description}
+                    onChange={(e) => setDescription(e.target.value)}
+                    placeholder='Here is a sample placeholder'
+                    size='sm'
+                  ></Textarea>
+                </div>
               </div>
+              <div style={{minWidth: '200px', padding: '0 10px', display: 'flex', flexDirection: 'column', marginBottom: '20px'}}>
+                <div style={{maxWidth: '180px', width: '100%', height: '100%', marginTop: '33px', borderRadius: '3px', position: 'relative'}}>
+                  <Image src={ newSrc || "/noimage.png"} style={{width: '100%', border: 'solid 1px #e2e8f0', borderRadius: '3px'}} ref={imageRef} />
+                  {
+                    newSrc &&
+                      <Icon path={mdiCloseCircleOutline}
+                      style={{position: 'absolute', top: '5px', right: '5px'}}
+                      size={0.7}
+                      color="#fb6b30"
+                      onClick={() => {setNewSrc('')}}
+                      role="mdiCloseCircleOutline"
+                    />
+                  }
+                </div>
+                <CropperModal setSrc={setNewSrc} />
+              </div>
+            </div>
               <div style={{marginBottom: '20px'}}>
                 <Text mb='8px'>タグ</Text>
                 <div style={{display: 'flex', marginBottom: '8px'}}>
                   {
-                    !tags ? <div style={{marginRight: '10px'}}>なし</div> : tags.map(tag => {
+                    !tags && tags.length == 0 ? <div style={{marginRight: '10px'}}>なし</div> : tags.map(tag => {
                       return (
                         <div key={tag.id} style={{marginRight: '10px', borderRadius: '20px', minWidth: '120px', backgroundColor: '#f4f4f7', display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '5px 15px'}}>
                           <div style={{display: 'flex', alignItems: 'center'}}>
@@ -90,19 +136,13 @@ export default function CreateArticle(props) {
                     })
                   }
                 </div>
-                <SelectTag tags={unselectedTags(allTags)} func={addTag} selectedTags={tags}></SelectTag>
+                <SelectTag tags={unselectedTags(allTags, tags)} func={addTag} selectedTags={tags}></SelectTag>
               </div>
-              <AlertDialog buttonText="更新" func={() => {create({title, description, content, tags})}}></AlertDialog>
+              {/* <button onClick={() => {test(input.current.files[0])}}>hello</button> */}
+              <AlertDialog buttonText="更新" func={() => {create({title, description, content, tags, newSrc})}}></AlertDialog>
           </div>
           <div style={{display: 'flex', justifyContent: 'space-between'}}>
             <div style={{width: '48%', backgroundColor: 'white', padding: '30px', borderRadius: '3px', filter: 'drop-shadow(0px 0px 3px rgba(0,0,0,.1))'}}>
-              <Text mb='8px'>背景</Text>
-              <Textarea
-                value={description}
-                onChange={(e) => setDescription(e.target.value)}
-                placeholder='Here is a sample placeholder'
-                size='sm'
-              ></Textarea>
               <Text mb='8px'>内容</Text>
               <Textarea
               rows="30"

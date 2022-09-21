@@ -1,7 +1,6 @@
 import styles from '../../styles/Home.module.css'
 import { Avatar, Box, Badge, Text, AvatarBadge, AvatarGroup, Flex } from '@chakra-ui/react'
 import { useRouter } from 'next/router'
-import articles from '/public/articles.json'
 import ReactMarkdown from "react-markdown";
 import { useRef } from 'react'
 import { useState } from 'react'
