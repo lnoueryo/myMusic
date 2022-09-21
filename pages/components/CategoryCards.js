@@ -13,42 +13,22 @@ export default function CategoryCards(category) {
   }
 
   return (
-    <div>
-      <h3 css={categoryTitle}>{category.name}</h3>
-      <div className="content-container flex">
-        <div className="flex justify-center" css={cardsContainer}>
-          {
-            category.tags?.map((tag, i) => {
-              return (
-                <div onMouseEnter={() => setTagKey(tag.id)} onMouseLeave={() => setTagKey('Nan')} className="flex-align-center justify-center w100 rel" css={card} key={tag.id} onClick={() => movePage(category.name, tag)}>
-                  {/* <span className="right-bottom" css={tagName}>{tag?.name}</span> */}
-                  <Overlay onCover={tagKey == tag.id}>{tag?.name}</Overlay>
-                  <div>
-                    <img className="w100" src={process.env.CATEGORY_URL + category.name.toLowerCase() + '/' + tag.src} />
-                  </div>
-                </div>
-              )
-            })
-          }
-        </div>
-      </div>
-    </div>
+    <>
+      {
+        category.tags?.map((tag, i) => {
+          return (
+            <div onMouseEnter={() => setTagKey(tag.id)} onMouseLeave={() => setTagKey('Nan')} className="flex-align-center justify-center w100 rel" css={card} key={tag.id} onClick={() => movePage(category.name, tag)}>
+              <Overlay onCover={tagKey == tag.id}>{tag?.name}</Overlay>
+              <div>
+                <img className="w100" src={process.env.CATEGORY_URL + category.name.toLowerCase() + '/' + tag.src} />
+              </div>
+            </div>
+          )
+        })
+      }
+    </>
   )
 }
-
-const categoryTitle = css({
-  fontWeight: 'bold',
-  fontSize: '24px'
-});
-
-const cardsContainer = css({
-  flexWrap: 'wrap',
-  marginRight: '300px',
-  width: '100%',
-  padding: '30px',
-  borderRadius: '3px',
-  filter: 'drop-shadow(0px 0px 3px rgba(0,0,0,.1))'
-});
 
 const card = css({
   padding: '4px',
