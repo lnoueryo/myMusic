@@ -1,11 +1,13 @@
 /** @jsxImportSource @emotion/react */
-import { Image } from '@chakra-ui/react'
+
 import { useRouter } from 'next/router';
-import { css }  from '@emotion/react'
+import { css }  from '@emotion/react';
+
 export default function CategoryCards(category) {
   const router = useRouter();
+
   const movePage = (name, tag) => {
-    router.push(`/${name.toLowerCase()}/${tag.id}`)
+    router.push(`/${name.toLowerCase()}/${tag.id}`);
   }
 
   return (
@@ -34,7 +36,7 @@ export default function CategoryCards(category) {
 const categoryTitle = css({
   fontWeight: 'bold',
   fontSize: '24px'
-})
+});
 
 const cardsContainer = css({
   flexWrap: 'wrap',
@@ -43,14 +45,14 @@ const cardsContainer = css({
   padding: '30px',
   borderRadius: '3px',
   filter: 'drop-shadow(0px 0px 3px rgba(0,0,0,.1))'
-})
+});
 
 const card = css({
   padding: '4px',
   maxWidth: '150px',
   backgroundColor: '#dcdfea',
   margin: '15px',
-})
+});
 
 const tagName = {
   backgroundColor: '#000000b8',
@@ -59,4 +61,4 @@ const tagName = {
   fontSize: '13px',
   padding: '0 5px',
   textAlign: 'center'
-}
+};
