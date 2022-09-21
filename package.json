@@ -13,6 +13,8 @@
   "dependencies": {
     "@chakra-ui/css-reset": "^2.0.7",
     "@chakra-ui/react": "^2.3.2",
+    "@craco/craco": "^6.4.5",
+    "@emotion/babel-plugin": "^11.10.2",
     "@emotion/react": "^11.10.4",
     "@emotion/styled": "^11.10.4",
     "@google-cloud/storage": "^6.5.0",
