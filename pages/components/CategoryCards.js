@@ -7,9 +7,7 @@ export default function CategoryCards(category) {
   const movePage = (name, tag) => {
     router.push(`/${name.toLowerCase()}/${tag.id}`)
   }
-  const tagSrc = (src) => {
-    return
-  }
+
   return (
     <div>
       <h3 css={categoryTitle}>{category.name}</h3>
