@@ -7,14 +7,11 @@ export default function ArticleCards({tag}) {
   const articleURL = '/articles/'
   const router = useRouter();
   const movePage = (article) => router.push(articleURL + article.id)
-  const moveTagPage = (e, tag) => {
-    e.stopPropagation();
-    router.push('/' + tag.category.name.toLowerCase() + '/' + tag.id)
-  }
+
   return (
     <>
       {
-        tag.blogs && tag.blogs.map(blog => {
+        tag?.blogs && tag.blogs.map(blog => {
           return (
             <div className="w100 flex-align-center rel" css={cardFrame} key={blog.id} onClick={() => movePage(blog)}>
               <img css={leftImage}  src={process.env.CATEGORY_URL + tag.category.name.toLowerCase() + '/' + tag.src} />
@@ -24,7 +21,7 @@ export default function ArticleCards({tag}) {
                 <div className="box-bottom flex" css={tagContainer}>
                   {
                     blog.tags.length == 0 ? <div className="mb10">なし</div> : blog.tags.map(tag => {
-                      return <Chip tag={tag}></Chip>
+                      return <Chip key={tag.id} tag={tag}></Chip>
                     })
                   }
                 </div>
