@@ -1,10 +1,5 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 
-import { Show } from '@chakra-ui/react'
-
-// export default function handler(req, res) {
-//   res.status(200).json({ name: 'John Doe' })
-// }
 const db = require('../../modules/database')
 const handler = async(req, res) => {
   if (req.method.toLocaleLowerCase() == 'get') {
@@ -26,9 +21,18 @@ const index = async(req, res) => {
   let response;
   try {
     response = await db.query(`
-      SELECT * FROM blogs ORDER BY id DESC;
+      SELECT bl.*, concat('[', IF(tg.id IS NULL, '', group_concat(JSON_OBJECT('id', tg.id, 'name', tg.name, 'src', tg.src) order by tg.id separator ',')), ']') as tags
+      FROM blogs bl
+      LEFT JOIN blogs_tags bt ON bt.blog_id = bl.id
+      LEFT JOIN tags tg ON bt.tag_id = tg.id
+      GROUP BY bl.id, bl.title, bl.description, bl.content
+      ORDER BY id DESC;
     `)
-    res.status(200).json(response)
+    const blogs = response.map(blog => {
+      blog.tags = JSON.parse(blog.tags);
+      return blog;
+    })
+    res.status(200).json(blogs)
   } catch (error) {
     console.log(error)
     res.status(400).json(error)
