@@ -31,8 +31,8 @@ export default function CropperModal({setSrc}) {
 
   return (
     <>
-      <input ref={inputRef} style={{display: 'none'}} type="file" onChange={(e) => loadImage(e)} />
-      <Button size='sm' style={{marginTop: 'auto'}} onClick={() => inputRef.current.click()}>ファイルを選択</Button>
+      <input className="none" ref={inputRef} type="file" onChange={(e) => loadImage(e)} />
+      <Button className="box-bottom" size='sm' onClick={() => inputRef.current.click()}>ファイルを選択</Button>
       <Modal onClose={onClose} size="full" isOpen={isOpen}>
         <ModalOverlay />
         <ModalContent>
@@ -41,9 +41,7 @@ export default function CropperModal({setSrc}) {
           <ModalBody>
           <Cropper
             src={cropSrc}
-            // src="https://raw.githubusercontent.com/roadmanfong/react-cropper/master/example/img/child.jpg"
             style={{ height: 400, width: "100%" }}
-            // Cropper.js options
             aspectRatio ={1/1}
             guides={false}
             ref={cropperRef}

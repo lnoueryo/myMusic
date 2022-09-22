@@ -81,6 +81,6 @@ export default function IconBreadcrumbs() {
   );
 }
 
-const breadcrumbsWrapper = css({
-  padding: '12px 8rem'
-})
+const breadcrumbsWrapper = {
+  padding: '12px 10%'
+}

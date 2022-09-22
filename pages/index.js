@@ -15,7 +15,7 @@ export default function Home(categories) {
                     <h3 className='font24 bold'>{category.name}</h3>
                     <div className="container">
                       <div className="flex justify-center wrap content-container" css={contentContainer}>
-                        <CategoryCards key={category.id} {...category}></CategoryCards>;
+                        <CategoryCards key={category.id} {...category} />
                       </div>
                     </div>
                   </>

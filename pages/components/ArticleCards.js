@@ -2,11 +2,11 @@
 
 import { useRouter } from 'next/router';
 import { css } from '@emotion/react';
-import Chip from './Chip'
+import Chip from './Chip';
+const BLOG_PATH = '/blogs/';
 export default function ArticleCards({tag}) {
-  const articleURL = '/articles/'
   const router = useRouter();
-  const movePage = (article) => router.push(articleURL + article.id)
+  const movePage = (article) => router.push(BLOG_PATH + article.id);
 
   return (
     <>
