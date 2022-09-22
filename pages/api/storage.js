@@ -27,7 +27,7 @@ const handler = async(req, res) => {
       return res.status(400).json({error: error.response})
     }
   }
-  console.log(responseJson)
+
   return res.status(200).json(responseJson)
 }
 

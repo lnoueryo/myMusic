@@ -72,7 +72,6 @@ const show = async(req, res) => {
     WHERE tg.id = ${req.query.id}
     GROUP BY tg.id, tg.name, tg.src;
     `)
-    console.log(response)
     const tag = response.map(tag => {
       tag.blogs = JSON.parse(tag.blogs)
       tag.category = JSON.parse(tag.category);

@@ -36,7 +36,6 @@ export default function EditArticle(props) {
   const update = async(params) => {
     console.log((article.src && src && !!newSrc) ? '削除' : '削除不要')
     const srcParams = {src: params['src'], newSrc: params['newSrc'], isDelete: params['isDelete']}
-    console.log(srcParams)
     const res = await saveImage(srcParams);
     params['src'] = res.data.src;
     const toastObl = {

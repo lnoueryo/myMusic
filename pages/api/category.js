@@ -28,7 +28,7 @@ const index = async(req, res) => {
     // response = await db.query(`
     // SELECT * FROM categories
     // `)
-    console.log(response, 0)
+
     response = await db.query(`
     SELECT ct.*
     , concat('[', group_concat(JSON_OBJECT('id', tg.id, 'name', tg.name, 'src', tg.src) order by tg.id separator ','), ']') as tags
@@ -37,12 +37,10 @@ const index = async(req, res) => {
         ON tg.category_id = ct.id
       GROUP BY ct.id, ct.name;
     `)
-    console.log(response, 1)
     const categories = response.map(category => {
       category.tags = JSON.parse(category.tags);
       return category;
     })
-    console.log(categories, 2)
     res.status(200).json(categories)
   } catch (error) {
     // res.status(200).json(categories)
