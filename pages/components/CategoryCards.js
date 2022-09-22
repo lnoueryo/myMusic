@@ -1,15 +1,28 @@
 /** @jsxImportSource @emotion/react */
 
 import { useRouter } from 'next/router';
-import { css }  from '@emotion/react';
 import Overlay from './Overlay'
 import { useState } from 'react'
+
+const MAX_CARD_NUM = 3;
 
 export default function CategoryCards(category) {
   const router = useRouter();
   const [tagKey, setTagKey] = useState('')
+
   const movePage = (name, tag) => {
     router.push(`/${name.toLowerCase()}/${tag.id}`);
+  }
+
+  const createFake = (tags) => {
+    const fakeNum = MAX_CARD_NUM - ((tags?.length || 0) % MAX_CARD_NUM);
+    const fakes = [];
+    for (let i = 0; i < fakeNum; i++) {
+      fakes.push(
+        <div className="flex-align-center justify-center rel hide" css={card}> </div>
+      )
+    }
+    return fakes
   }
 
   return (
@@ -17,7 +30,7 @@ export default function CategoryCards(category) {
       {
         category.tags?.map((tag, i) => {
           return (
-            <div onMouseEnter={() => setTagKey(tag.id)} onMouseLeave={() => setTagKey('Nan')} className="flex-align-center justify-center w100 rel" css={card} key={tag.id} onClick={() => movePage(category.name, tag)}>
+            <div onMouseEnter={() => setTagKey(tag.id)} onMouseLeave={() => setTagKey('Nan')} className="flex-align-center justify-center rel" css={card} key={tag.id} onClick={() => movePage(category.name, tag)}>
               <Overlay onCover={tagKey == tag.id}>{tag?.name}</Overlay>
               <div>
                 <img className="w100" src={process.env.CATEGORY_URL + category.name.toLowerCase() + '/' + tag.src} />
@@ -26,23 +39,26 @@ export default function CategoryCards(category) {
           )
         })
       }
+      {
+        createFake(category.tags)
+      }
     </>
   )
 }
 
-const card = css({
+const card = {
   padding: '4px',
-  maxWidth: '200px',
+  width: 'calc(28% - 24px)',
   backgroundColor: '#dcdfea',
   margin: '20px',
   overflow: 'hidden'
-});
+};
 
-const tagName = css({
+const tagName = {
   backgroundColor: '#000000b8',
   color: 'white',
   minWidth: '100%',
   fontSize: '13px',
   padding: '0 5px',
   textAlign: 'center'
-});
+};
