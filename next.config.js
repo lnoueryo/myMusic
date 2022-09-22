@@ -5,6 +5,7 @@ const nextConfig = {
   trailingSlash: true,
   env: {
     CATEGORY_URL: 'https://storage.googleapis.com/tech-blog-static/',
+    BASE_URL: process.env.BASE_URL,
   },
 }
 

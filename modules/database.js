@@ -8,8 +8,8 @@ const config = {
   password: process.env.MYSQL_PASSWORD || 'password'
 }
 
-if(process.env.MYSQL_HOST) {
-  config['socketPath'] = process.env.MYSQL_HOST;
+if(process.env?.MYSQL_SOCKET) {
+  config['socketPath'] = process.env.MYSQL_SOCKET;
 }
 
 const db = mysql({
