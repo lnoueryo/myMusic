@@ -32,7 +32,7 @@ const markdownComponents = {
     );
   },
 };
-export default function Blogs(article) {
+export default function Blogs(blog) {
   const windowX = useSelector(state => state.config.windowSize.x)
   return (
     <section>
@@ -40,13 +40,13 @@ export default function Blogs(article) {
         <div className="container">
           <div className="content-container flex">
             <div className="w100" css={leftContent}>
-              <h2 className="font20 bold mb20">{article.title}</h2>
-              <p className="font14 mb20">{article.description}</p>
+              <h2 className="font20 bold mb20">{blog.title}</h2>
+              <p className="font14 mb20">{blog.description}</p>
                 <ReactMarkdown
                   components={markdownComponents}
                   rehypePlugins={[rehypeRaw]}
                 >
-                  {article.content}
+                  {blog.content}
                 </ReactMarkdown>
             </div>
             {

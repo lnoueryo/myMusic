@@ -6,7 +6,7 @@ import Chip from './Chip';
 const BLOG_PATH = '/blogs/';
 export default function ArticleCards({tag}) {
   const router = useRouter();
-  const movePage = (article) => router.push(BLOG_PATH + article.id);
+  const movePage = (blog) => router.push(BLOG_PATH + blog.id);
 
   return (
     <>
@@ -14,14 +14,14 @@ export default function ArticleCards({tag}) {
         tag?.blogs && tag.blogs.map(blog => {
           return (
             <div className="w100 flex-align-center rel" css={cardFrame} key={blog.id} onClick={() => movePage(blog)}>
-              <img css={leftImage}  src={process.env.CATEGORY_URL + tag.category.name.toLowerCase() + '/' + tag.src} />
+              <img css={leftImage}  src={process.env.CATEGORY_URL + tag.category.name.toLowerCase() + '/' + tag.src} alt={tag.name} />
               <div className="w100 h100 box" css={box}>
                 <h3 className="bold font14 mb10">{blog?.title}</h3>
                 <p className="font10" css={description}>{blog.description}</p>
                 <div className="box-bottom flex" css={tagContainer}>
                   {
                     blog.tags.length == 0 ? <div className="mb10">なし</div> : blog.tags.map(tag => {
-                      return <Chip key={tag.id} tag={tag}></Chip>
+                      return <Chip data-testid={blog.title + tag.id} key={tag.id} tag={tag}></Chip>
                     })
                   }
                 </div>

@@ -27,6 +27,7 @@
     "@mui/styled-engine-sc": "^5.10.6",
     "@reduxjs/toolkit": "^1.8.5",
     "@sonicgarden/next-csr-rewrites-generator": "^1.2.0",
+    "@testing-library/user-event": "^14.4.3",
     "@types/axios": "^0.14.0",
     "axios": "^0.27.2",
     "bootstrap": "^5.2.1",

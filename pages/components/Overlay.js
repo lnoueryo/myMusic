@@ -6,7 +6,7 @@ export default function Overlay({ onCover, children }) {
 
   return (
     <>
-      <div css={[overlay, out, onCover && hover ]}>
+      <div css={[overlay, out, onCover && hover ]} role="overlay">
         <span className="flex-align-center justify-center w100 h100 bold font20">{children}</span>
       </div>
     </>

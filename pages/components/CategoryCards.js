@@ -19,7 +19,7 @@ export default function CategoryCards(category) {
     const fakes = [];
     for (let i = 0; i < fakeNum; i++) {
       fakes.push(
-        <div className="flex-align-center justify-center rel hide" css={card}> </div>
+        <div className="flex-align-center justify-center rel hide" css={card}><img /></div>
       )
     }
     return fakes
@@ -30,10 +30,10 @@ export default function CategoryCards(category) {
       {
         category.tags?.map((tag, i) => {
           return (
-            <div onMouseEnter={() => setTagKey(tag.id)} onMouseLeave={() => setTagKey('Nan')} className="flex-align-center justify-center rel" css={card} key={tag.id} onClick={() => movePage(category.name, tag)}>
-              <Overlay onCover={tagKey == tag.id}>{tag?.name}</Overlay>
+            <div key={tag.id} onMouseEnter={() => setTagKey(tag.id)} onMouseLeave={() => setTagKey('Nan')} className="flex-align-center justify-center rel" css={card} onClick={() => movePage(category.name, tag)}>
+              <Overlay key={tag.id} onCover={tagKey == tag.id}>{tag?.name}</Overlay>
               <div>
-                <img className="w100" src={process.env.CATEGORY_URL + category.name.toLowerCase() + '/' + tag.src} />
+                <img className="w100" src={process.env.CATEGORY_URL + category.name.toLowerCase() + '/' + tag.src} alt={tag.name} />
               </div>
             </div>
           )

@@ -9,7 +9,7 @@ export default function ProfileCard({maxWidth}) {
       <CardContent style={{paddingTop: '0', paddingBottom: '0'}}>
         <div className='flex-align-center'>
           <ListItemAvatar>
-            <Avatar alt="Remy Sharp" src="/inoueryo.png" />
+            <Avatar alt="my photo" src="/inoueryo.png" />
           </ListItemAvatar>
           <ListItemText
               primary="lnoueryo"

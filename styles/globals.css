@@ -5,11 +5,16 @@ body {
   font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
     Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
     background: #edf2f7;
+    color: #333333;
 }
 
 a {
   color: inherit;
   text-decoration: none;
+}
+
+img {
+  width: 100%;
 }
 
 * {
@@ -23,5 +28,171 @@ a {
   body {
     color: white;
     background: black;
+  }
+}
+
+.font-family-1 {
+  font-family: '"游ゴシック体", "Yu Gothic", YuGothic, "Hiragino Kaku Gothic ProN", "Hiragino Sans", Meiryo, sans-serif'
+}
+
+main section .wrapper {
+  padding: 0 80px;
+}
+
+main section .container {
+  width: 100%;
+  max-width: 1200px;
+  margin: auto;
+  position: relative;
+}
+
+main section .content-container {
+  padding-right: 300px;
+  border-radius: 3px;
+}
+
+.flex {
+  display: flex;
+}
+
+.flex-align-center {
+  display: flex;
+  align-items: center;
+}
+
+.justify-center {
+  justify-content: center;
+}
+
+.justify-between {
+  justify-content: space-between;
+}
+
+.wrap {
+  flex-wrap: wrap;
+}
+
+.w100 {
+  width: 100%
+}
+
+.h100 {
+  height: 100%
+}
+
+.rel {
+  position: relative;
+}
+
+.right-top {
+  position: absolute;
+  right: 0;
+  top: 0;
+}
+
+.right-bottom {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+}
+
+.left-top {
+  position: absolute;
+  left: 0;
+  top: 0;
+}
+
+.left-bottom {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+}
+
+.bold {
+  font-weight: bold;
+}
+
+.font10 {
+  font-size: 10px;
+}
+
+.font14 {
+  font-size: 14px;
+}
+
+.font20 {
+  font-size: 20px;
+}
+
+.font24 {
+  font-size: 24px;
+}
+
+.word-break {
+  word-break: break-all;
+}
+
+.box {
+  display: flex;
+  flex-direction: column;
+}
+
+.box .box-bottom {
+  margin-top: auto;
+}
+
+.mr5 {
+  margin-right: 5px;
+}
+
+.mb10 {
+  margin-bottom: 10px;
+}
+
+.mb20 {
+  margin-bottom: 20px;
+}
+
+.none {
+  display: none;
+}
+
+.hide {
+  opacity: 0;
+}
+
+@media only screen and (max-width:768px) {
+  main section .wrapper {
+    padding: 0 40px;
+  }
+
+  main section .container {
+    width: 100%;
+    max-width: 1200px;
+    margin: auto;
+    position: relative;
+  }
+
+  main section .content-container {
+    padding-right: 0;
+    border-radius: 3px;
+  }
+}
+
+@media only screen and (max-width:480px) {
+  main section .wrapper {
+    padding: 0 20px;
+  }
+
+  main section .container {
+    width: 100%;
+    max-width: 1200px;
+    margin: auto;
+    position: relative;
+  }
+
+  main section .content-container {
+    padding-right: 0;
+    border-radius: 3px;
   }
 }

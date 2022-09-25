@@ -1,5 +1,5 @@
 import styles from '../../styles/Home.module.css';
-import ArticleCards from '../components/ArticleCards';
+import BlogCards from '../components/BlogCards';
 import axios from '/modules/httpclient';
 import { css } from '@emotion/react';
 
@@ -11,7 +11,7 @@ export default function Languages(tag) {
         <h3 className='bold font24'>{tag.name}</h3>
         <div className="container">
           <div className="flex justify-center wrap w100 content-container" css={contentContainer}>
-            {tag.blogs && <ArticleCards tag={tag} />}
+            {tag.blogs && <BlogCards tag={tag} />}
           </div>
         </div>
       </div>
