@@ -83,7 +83,9 @@ const show = async(req, res) => {
         }
         blogObj[blog.id] = blog;
       })
-      tag.blogs = Object.values(blogObj)
+      tag.blogs = Object.values(blogObj).sort((a, b) => {
+        return b - a;
+      });
       return tag;
     })
     res.status(200).json(tag)

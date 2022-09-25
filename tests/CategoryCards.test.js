@@ -1,9 +1,9 @@
 process.env.CATEGORY_URL = 'https://storage.googleapis.com/tech-blog-static/'
 import { fireEvent, render,screen } from '@testing-library/react'
-import CategoryCards from "../CategoryCards";
+import CategoryCards from "../pages/components/CategoryCards";
 import '@testing-library/jest-dom/extend-expect'
 import { Provider } from 'react-redux';
-import store from '../../../store';
+import store from '../store';
 
 const category = {
   id: 1,

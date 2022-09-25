@@ -1,9 +1,9 @@
 process.env.CATEGORY_URL = 'https://storage.googleapis.com/tech-blog-static/'
 import { fireEvent, render,screen } from '@testing-library/react'
-import Overlay from "../Overlay";
+import Overlay from "../pages/components/Overlay";
 import '@testing-library/jest-dom/extend-expect'
 import { Provider } from 'react-redux';
-import store from '../../../store';
+import store from '../store';
 
 const tag = {id: 1, name: 'HTML', src: 'html.png'}
 

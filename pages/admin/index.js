@@ -1,6 +1,6 @@
 /** @jsxImportSource @emotion/react */
 
-import ArticleAdminCards from '../components/ArticleAdminCards';
+import BlogAdminCards from '../components/BlogAdminCards';
 import axios from '/modules/httpclient';
 import { LoadingButton } from '@mui/lab';
 import AddIcon from '@mui/icons-material/Add';
@@ -42,7 +42,7 @@ export default function Admin(props) {
                 onChange={(e) => setSearchWord(e.target.value)}
               />
           </div>
-          {blogs && <ArticleAdminCards blogs={searchBlogs(blogs)} />}
+          {blogs && <BlogAdminCards blogs={searchBlogs(blogs)} />}
         </div>
       </div>
     </div>

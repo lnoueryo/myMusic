@@ -3,8 +3,10 @@
 import { useRouter } from 'next/router';
 import { css } from '@emotion/react';
 import Chip from './Chip';
+import { useSelector } from 'react-redux';
 const BLOG_PATH = '/blogs/';
-export default function ArticleCards({tag}) {
+export default function BlogCards({tag}) {
+  const windowX = useSelector(state => state.config.windowSize.x);
   const router = useRouter();
   const movePage = (blog) => router.push(BLOG_PATH + blog.id);
 
@@ -13,11 +15,13 @@ export default function ArticleCards({tag}) {
       {
         tag?.blogs && tag.blogs.map(blog => {
           return (
-            <div className="w100 flex-align-center rel" css={cardFrame} key={blog.id} onClick={() => movePage(blog)}>
-              <img css={leftImage}  src={process.env.CATEGORY_URL + tag.category.name.toLowerCase() + '/' + tag.src} alt={tag.name} />
-              <div className="w100 h100 box" css={box}>
+            <div className={windowX < 769 || 'flex-align-center'} css={card} key={blog.id} onClick={() => movePage(blog)}>
+              <div css={leftContent}>
+                <img alt={tag.name} css={[leftImage, windowX < 769 && normalImage]} src={blog.src ? process.env.CATEGORY_URL + 'blog/' + blog.src : (process.env.CATEGORY_URL + tag.category.name.toLowerCase() + '/' + tag.src)} />
+              </div>
+              <div className={windowX < 769 || 'box'} css={rightCard}>
                 <h3 className="bold font14 mb10">{blog?.title}</h3>
-                <p className="font10" css={description}>{blog.description}</p>
+                <p css={para}>{blog.description}</p>
                 <div className="box-bottom flex" css={tagContainer}>
                   {
                     blog.tags.length == 0 ? <div className="mb10">なし</div> : blog.tags.map(tag => {
@@ -34,26 +38,47 @@ export default function ArticleCards({tag}) {
   )
 };
 
-const cardFrame = css({
-  height: '150px',
+const card = {
+  width: '100%',
   backgroundColor: 'white',
   margin: '15px',
-})
+  position: 'relative',
+  border: 'solid 1px #e2e8f0',
+  borderRadius: '3px'
+}
 
-const leftImage = css({
-  width: '150px',
-  padding: '0 5px'
-})
+const leftContent = {
+  width: '100%'
+}
 
-const box = css({
-  padding: '5px 10px'
-})
+const rightCard = {
+  width: '100%',
+  height: '100%',
+  padding: '5px 10px',
+}
 
-const description = css({
-  color: '#99a9b0'
-})
+const para = {
+  color: '#99a9b0',
+  fontSize: '10px'
+}
 
-const tagContainer = css({
+const buttonContainer = {
+  marginTop: 'auto',
+  justifyContent: 'end',
+  display: 'flex'
+}
+
+const leftImage = {
+  minHeight: '250px',
+  objectFit: 'cover'
+}
+
+const normalImage = {
+  padding: '15px',
+  height: '200px',
+}
+
+const tagContainer = {
   justifyContent: 'end',
   flexWrap: 'wrap-reverse'
-})
+}
