@@ -31,7 +31,7 @@ const index = async(req, res) => {
     const blogs = response.map(blog => {
       blog.tags = JSON.parse(blog.tags);
       return blog;
-    })
+    });
     res.status(200).json(blogs)
   } catch (error) {
     console.log(error)

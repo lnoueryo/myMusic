@@ -6,6 +6,7 @@ body {
     Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
     background: #edf2f7;
     color: #333333;
+    word-break: break-all;
 }
 
 a {
@@ -51,6 +52,14 @@ main section .content-container {
   border-radius: 3px;
 }
 
+.text-center {
+  text-align: center;
+}
+
+.text-right {
+  text-align: end;
+}
+
 .flex {
   display: flex;
 }
@@ -62,6 +71,10 @@ main section .content-container {
 
 .justify-center {
   justify-content: center;
+}
+
+.justify-end {
+  justify-content: end;
 }
 
 .justify-between {
@@ -161,7 +174,7 @@ main section .content-container {
   opacity: 0;
 }
 
-@media only screen and (max-width:768px) {
+@media only screen and (max-width:1060px) {
   main section .wrapper {
     padding: 0 40px;
   }

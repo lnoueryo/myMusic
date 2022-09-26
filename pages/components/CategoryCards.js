@@ -3,6 +3,7 @@
 import { useRouter } from 'next/router';
 import Overlay from './Overlay'
 import { useState } from 'react'
+import { HelpOutline } from '@mui/icons-material';
 
 const MAX_CARD_NUM = 3;
 
@@ -19,7 +20,7 @@ export default function CategoryCards(category) {
     const fakes = [];
     for (let i = 0; i < fakeNum; i++) {
       fakes.push(
-        <div className="flex-align-center justify-center rel hide" css={card}><img /></div>
+        <div className="flex-align-center justify-center rel hide" css={card} style={{cursor: 'initial'}}><img /></div>
       )
     }
     return fakes
@@ -30,8 +31,8 @@ export default function CategoryCards(category) {
       {
         category.tags?.map((tag, i) => {
           return (
-            <div key={tag.id} onMouseEnter={() => setTagKey(tag.id)} onMouseLeave={() => setTagKey('Nan')} className="flex-align-center justify-center rel" css={card} onClick={() => movePage(category.name, tag)}>
-              <Overlay key={tag.id} onCover={tagKey == tag.id}>{tag?.name}</Overlay>
+            <div key={tag.name} onMouseEnter={() => setTagKey(tag.id)} onMouseLeave={() => setTagKey('Nan')} className="flex-align-center justify-center rel" css={card} onClick={() => movePage(category.name, tag)}>
+              <Overlay key={tag.name} onCover={tagKey == tag.id}>{tag?.name}</Overlay>
               <div>
                 <img className="w100" src={process.env.CATEGORY_URL + category.name.toLowerCase() + '/' + tag.src} alt={tag.name} />
               </div>
@@ -51,7 +52,8 @@ const card = {
   width: 'calc(28% - 24px)',
   backgroundColor: '#dcdfea',
   margin: '20px',
-  overflow: 'hidden'
+  overflow: 'hidden',
+  cursor: 'pointer'
 };
 
 const tagName = {

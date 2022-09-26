@@ -5,7 +5,7 @@ export default function Navigation() {
 
   return (
     <div css={navigationWrapper}>
-      <BreadCrumbs></BreadCrumbs>
+      {/* <BreadCrumbs></BreadCrumbs> */}
     </div>
   )
 }

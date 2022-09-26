@@ -38,7 +38,7 @@ export default function Blogs(blog) {
     <section>
       <div className="wrapper">
         <div className="container">
-          <div className="content-container flex">
+          <div className="content-container flex mb10">
             <div className="w100" css={leftContent}>
               <h2 className="font20 bold mb20">{blog.title}</h2>
               <p className="font14 mb20">{blog.description}</p>
@@ -50,14 +50,14 @@ export default function Blogs(blog) {
                 </ReactMarkdown>
             </div>
             {
-              windowX > 768 &&
+              windowX > 1060 &&
               <div css={rightContent}>
                 <ProfileCard maxWidth="360px"></ProfileCard>
               </div>
             }
           </div>
           {
-            windowX < 769 &&
+            windowX < 1061 &&
             <ProfileCard></ProfileCard>
           }
         </div>

@@ -5,6 +5,7 @@ RUN apk add --no-cache libc6-compat
 WORKDIR /app
 COPY . .
 RUN yarn install --frozen-lockfile
+RUN yarn jest
 
 ENV NODE_ENV production
 

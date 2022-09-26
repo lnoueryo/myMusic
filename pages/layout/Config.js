@@ -1,4 +1,4 @@
-import React, { useLayoutEffect, useState } from 'react';
+import React, { useEffect, useLayoutEffect, useState } from 'react';
 import { changeWindowSize, countUp } from '../../store/modules';
 import { useDispatch, useSelector } from 'react-redux';
 import store from '../../store';
@@ -8,7 +8,7 @@ export default function Config() {
 
 const useWindowSize = () => {
   const dispatch = useDispatch()
-  useLayoutEffect(() => {
+  useEffect(() => {
 
     const updateSize = () => {
       dispatch(changeWindowSize({x: window.innerWidth, y: window.innerHeight}))

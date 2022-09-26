@@ -19,20 +19,20 @@ export default function Chip({ tag }) {
   )
 };
 
-const chip = css({
+const chip = {
   margin: '3px',
   borderRadius: '20px',
   minWidth: '80px',
   backgroundColor: '#f4f4f7',
   padding: '5px 15px'
-})
+}
 
-const chipImage = css({
-  width: '12px'
-})
+const chipImage = {
+  width: '18px'
+}
 
-const tagName = css({
+const tagName = {
   padding: '0 7px',
-  fontSize: '8px',
+  fontSize: '10px',
   fontWeight: 'bold'
-})
+}
