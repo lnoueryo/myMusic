@@ -9,7 +9,7 @@ export default function Languages(tag) {
   return (
     <section>
       <div className="wrapper">
-        <h3 className='bold font24'>{tag.name}</h3>
+        <h3 className="title">{tag.name}</h3>
         <div className="container">
           <div className="flex justify-center wrap w100 content-container" css={contentContainer}>
             {tag.blogs && <BlogCards tag={tag} />}

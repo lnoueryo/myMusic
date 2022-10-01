@@ -1,3 +1,5 @@
+/** @jsxImportSource @emotion/react */
+
 import styles from '../styles/Home.module.css'
 import CategoryCards from './components/CategoryCards'
 import axios from '/modules/httpclient'
@@ -12,10 +14,14 @@ export default function Home(categories) {
               categories && Object.values(categories).map(category => {
                 return (
                   <>
-                    <h3 className='font24 bold'>{category.name}</h3>
+                    <h3 className="title">{category.name}</h3>
                     <div className="container">
-                      <div className="flex justify-center wrap content-container" css={contentContainer}>
-                        <CategoryCards key={category.id} {...category} />
+                      <div className="content-container">
+                        <div css={contentContainer}>
+                          <div className="flex justify-center wrap">
+                            <CategoryCards key={category.id} {...category} />
+                          </div>
+                        </div>
                       </div>
                     </div>
                   </>
@@ -32,6 +38,9 @@ Home.getInitialProps = async ({query}) => {
   return response.data;
 };
 
-const contentContainer = css({
+const contentContainer = {
+  // backgroundColor: 'white',
+  // backgroundColor: '#E1F8F9',
+  borderRadius: '3px',
   filter: 'drop-shadow(0px 0px 3px rgba(0,0,0,.1))'
-});
+}

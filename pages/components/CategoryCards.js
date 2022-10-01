@@ -33,8 +33,8 @@ export default function CategoryCards(category) {
           return (
             <div key={tag.name} onMouseEnter={() => setTagKey(tag.id)} onMouseLeave={() => setTagKey('Nan')} className="flex-align-center justify-center rel" css={card} onClick={() => movePage(category.name, tag)}>
               <Overlay key={tag.name} onCover={tagKey == tag.id}>{tag?.name}</Overlay>
-              <div>
-                <img className="w100" src={process.env.CATEGORY_URL + category.name.toLowerCase() + '/' + tag.src} alt={tag.name} />
+              <div className="flex">
+                <img className="w100" style={{filter: 'drop-shadow(0px 0px 3px rgba(0,0,0,.3))'}} src={process.env.CATEGORY_URL + category.name.toLowerCase() + '/' + tag.src} alt={tag.name} />
               </div>
             </div>
           )
@@ -50,17 +50,10 @@ export default function CategoryCards(category) {
 const card = {
   padding: '4px',
   width: 'calc(28% - 24px)',
-  backgroundColor: '#dcdfea',
+  backgroundColor: '#E1F8F9',
   margin: '20px',
   overflow: 'hidden',
-  cursor: 'pointer'
-};
-
-const tagName = {
-  backgroundColor: '#000000b8',
-  color: 'white',
-  minWidth: '100%',
-  fontSize: '13px',
-  padding: '0 5px',
-  textAlign: 'center'
+  cursor: 'pointer',
+  borderRadius: '3px',
+  filter: 'drop-shadow(0px 0px 3px rgba(0,0,0,.2))'
 };

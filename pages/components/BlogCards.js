@@ -38,7 +38,7 @@ export default function BlogCards({tag}) {
                 <img alt={tag.name} css={[leftImage, windowX < 769 && normalImage]} src={blog.src ? process.env.CATEGORY_URL + 'blog/' + blog.src : noImageSrc(tag)}/>
               </div>
               <div className={windowX < 769 || 'box'} css={rightCard}>
-                <h3 className="bold font20 mb10">{blog?.title}</h3>
+                <h3 className="title font20 mb10">{blog?.title}</h3>
                 <p css={para}>{blog.description}</p>
                 <div className="box-bottom">
                   <div className="flex mb10" css={tagContainer}>

@@ -58,7 +58,7 @@ export default function Blogs(blog) {
           </div>
           {
             windowX < 1061 &&
-            <ProfileCard></ProfileCard>
+            <ProfileCard className="mb20"></ProfileCard>
           }
         </div>
       </div>

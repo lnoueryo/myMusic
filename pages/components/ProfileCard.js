@@ -11,23 +11,12 @@ export default function ProfileCard({maxWidth}) {
           <ListItemAvatar>
             <Avatar alt="my photo" src="/inoueryo.png" />
           </ListItemAvatar>
-          <ListItemText
-              primary="lnoueryo"
-              secondary={
-                <Fragment>
-                  <Typography
-                    sx={{ display: 'inline' }}
-                    component="span"
-                    variant="body2"
-                    color="text.primary"
-                  >
-                    Web Developer
-                  </Typography>
-                </Fragment>
-              }
-            />
+          <div>
+            <div className="title font20">lnoueryo</div>
+            <div className="title font20">Web Developer</div>
+          </div>
         </div>
-        <p className="font14 word-break">I&apos;m a Python and Javascript web developer and aiming to be a full-stack developer</p>
+        <p className="font14 word-break fc1">I&apos;m a Python and Javascript web developer and aiming to be a full-stack developer</p>
         <Stack direction="row" spacing={1} className="mb10">
           <Chip className="bold" label="Javascript" variant="outlined" avatar={<Avatar alt="Natacha" src={process.env.CATEGORY_URL + 'language/javascript.png'} />} />
           <Chip className="bold" label="Vue" variant="outlined" avatar={<Avatar alt="Natacha" src={process.env.CATEGORY_URL + 'framework/vue.png'} />} />

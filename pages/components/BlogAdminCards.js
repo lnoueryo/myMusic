@@ -67,18 +67,19 @@ export default function ArticleCards({blogs}) {
     </>
   )
 }
-
 const card = {
   width: '100%',
   backgroundColor: 'white',
   margin: '15px',
   position: 'relative',
   border: 'solid 1px #e2e8f0',
-  borderRadius: '3px'
+  borderRadius: '3px',
+  cursor: 'pointer'
 }
 
 const leftContent = {
-  width: '100%'
+  width: '100%',
+  maxWidth: '250px'
 }
 
 const rightCard = {
