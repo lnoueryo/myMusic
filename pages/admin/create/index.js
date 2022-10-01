@@ -1,5 +1,7 @@
+/** @jsxImportSource @emotion/react */
+
 import styles from '/styles/Home.module.css'
-import { Avatar, Box, Badge, Text, Textarea, Button, useToast, Image } from '@chakra-ui/react'
+import { Avatar, Box, Badge, Text, Textarea, Button, useToast } from '@chakra-ui/react'
 import ReactMarkdown from "react-markdown";
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter'
 import rehypeRaw from "rehype-raw";
@@ -11,9 +13,12 @@ import CropperModal from '../../components/CropperModal';
 import Icon from '@mdi/react'
 import { mdiCloseCircleOutline  } from '@mdi/js';
 import { useRouter } from 'next/router';
+import { useSelector } from 'react-redux';
+import { FormControl, InputLabel, OutlinedInput, InputAdornment } from '@mui/material';
 
 
 export default function CreateArticle(props) {
+  const windowX = useSelector(state => state.config.windowSize.x);
   const imageRef = useRef(null);
   const router = useRouter()
   const allTags = Object.values(props);
@@ -70,34 +75,40 @@ export default function CreateArticle(props) {
   }
 
   return (
-    <div className={styles.container}>
+    <div className="container">
       {
         <div style={{width: '100%', maxWidth: '1000px', margin: 'auto', position: 'relative', }}>
           <div style={{width: '100%%', backgroundColor: 'white', padding: '30px', marginBottom: '20px', filter: 'drop-shadow(0px 0px 3px rgba(0,0,0,.1))'}}>
-            <div style={{display: 'flex'}}>
-              <div style={{width: '100%'}}>
-                <div style={{marginBottom: '20px'}}>
-                  <Text mb='8px'>タイトル</Text>
-                  <Textarea
-                    value={title}
-                    onChange={(e) => setTitle(e.target.value)}
-                    placeholder='Here is a sample placeholder'
-                    size='sm'
-                  ></Textarea>
+            <div className={`flex ${windowX < 768 && 'wrap'}`}>
+              <div className="w100">
+                <div className="mb20">
+                  <FormControl fullWidth sx={{ m: 1 }}>
+                    <InputLabel htmlFor="outlined-adornment-amount">タイトル</InputLabel>
+                    <OutlinedInput
+                     style={{padding: '0'}}
+                      id="outlined-adornment-amount"
+                      value={title}
+                      onChange={(e) => setTitle(e.target.value)}
+                      label="タイトル"
+                    />
+                  </FormControl>
                 </div>
-                <div style={{marginBottom: '20px'}}>
-                  <Text mb='8px'>背景</Text>
-                  <Textarea
-                    value={description}
-                    onChange={(e) => setDescription(e.target.value)}
-                    placeholder='Here is a sample placeholder'
-                    size='sm'
-                  ></Textarea>
+                <div className="mb20">
+                  <FormControl fullWidth sx={{ m: 1 }}>
+                    <InputLabel htmlFor="outlined-adornment-amount">背景</InputLabel>
+                    <OutlinedInput
+                      style={{padding: '0'}}
+                      id="outlined-adornment-amount"
+                      value={description}
+                      onChange={(e) => setDescription(e.target.value)}
+                      label="背景"
+                    />
+                  </FormControl>
                 </div>
               </div>
-              <div style={{minWidth: '200px', padding: '0 10px', display: 'flex', flexDirection: 'column', marginBottom: '20px'}}>
-                <div style={{maxWidth: '180px', width: '100%', height: '100%', marginTop: '33px', borderRadius: '3px', position: 'relative'}}>
-                  <Image src={ newSrc || "/noimage.png"} style={{width: '100%', border: 'solid 1px #e2e8f0', borderRadius: '3px'}} ref={imageRef} />
+              <div css={rightContainer}>
+                <div css={imageContainer}>
+                  <img src={ newSrc || "/noimage.png"} css={image} ref={imageRef} />
                   {
                     newSrc &&
                       <Icon path={mdiCloseCircleOutline}
@@ -113,14 +124,14 @@ export default function CreateArticle(props) {
               </div>
             </div>
               <div style={{marginBottom: '20px'}}>
-                <Text mb='8px'>タグ</Text>
+                <div>タグ</div>
                 <div style={{display: 'flex', marginBottom: '8px'}}>
                   {
                     !tags && tags.length == 0 ? <div style={{marginRight: '10px'}}>なし</div> : tags.map(tag => {
                       return (
                         <div key={tag.id} style={{marginRight: '10px', borderRadius: '20px', minWidth: '120px', backgroundColor: '#f4f4f7', display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '5px 15px'}}>
                           <div style={{display: 'flex', alignItems: 'center'}}>
-                            <Image style={{width: '24px'}} src={`/${tag.category.name}/${tag.src}`} />
+                            <img style={{width: '24px'}} src={`${process.env.CATEGORY_URL}${tag.category.name.toLowerCase()}/${tag.src}`} />
                             <div style={{padding: '0 7px', fontSize: '12px', fontWeight: 'bold'}}>{tag.name}</div>
                           </div>
                           <div>
@@ -168,57 +179,6 @@ export default function CreateArticle(props) {
       }
     </div>
   )
-  // return (
-  //   <div className={styles.container}>
-  //     <AlertDialog buttonText="保存" func={() => {create({title, description, content})}}></AlertDialog>
-  //     {
-  //       <div style={{width: '100%', maxWidth: '1000px', margin: 'auto', position: 'relative', }}>
-  //         <div style={{width: '49%', marginBottom: '20px'}}>
-  //           {/* <Button colorScheme='blue' size='sm' onClick={() => create({title, description, content})}>保存</Button> */}
-  //         </div>
-  //         <div style={{display: 'flex', justifyContent: 'space-between'}}>
-  //           <div style={{width: '49%', backgroundColor: 'white', padding: '30px', borderRadius: '3px', filter: 'drop-shadow(0px 0px 3px rgba(0,0,0,.1))'}}>
-  //             <Text mb='8px'>タイトル</Text>
-  //             <Textarea
-  //               value={title}
-  //               onChange={(e) => setTitle(e.target.value)}
-  //               placeholder='Here is a sample placeholder'
-  //               size='sm'
-  //             ></Textarea>
-  //             <Text mb='8px'>背景</Text>
-  //             <Textarea
-  //               value={description}
-  //               onChange={(e) => setDescription(e.target.value)}
-  //               placeholder='Here is a sample placeholder'
-  //               size='sm'
-  //             ></Textarea>
-  //             <Text mb='8px'>背景</Text>
-  //             <Textarea
-  //             rows="30"
-  //               value={content}
-  //               onChange={(e) => setContent(e.target.value)}
-  //               placeholder='Here is a sample placeholder'
-  //               size='sm'
-  //             ></Textarea>
-  //             <div>
-  //             </div>
-  //           </div>
-  //           <div style={{padding: '15px', width: '48%', minHeight: '150px', right: '8rem', backgroundColor: 'white', borderRadius: '3px', filter: 'drop-shadow(0px 0px 3px rgba(0,0,0,.1))'}}>
-  //             <h2 style={{fontWeight: 'bold', fontSize: '20px', marginBottom: '20px'}}>{title}</h2>
-  //             <p style={{fontSize: '14px', marginBottom: '20px'}}>{description}</p>
-  //               <ReactMarkdown
-  //               components={markdownComponents}
-  //               rehypePlugins={[rehypeRaw]}
-
-  //               >
-  //                 {content}
-  //               </ReactMarkdown>
-  //           </div>
-  //         </div>
-  //     </div>
-  //     }
-  //   </div>
-  // )
 }
 
 CreateArticle.getInitialProps = async ({query}) => {
@@ -253,3 +213,26 @@ const markdownComponents = {
     );
   },
 };
+
+const rightContainer = {
+  minWidth: '200px',
+  padding: '0 10px',
+  display: 'flex',
+  flexDirection: 'column',
+  marginBottom: '20px'
+}
+
+const imageContainer = {
+  maxWidth: '180px',
+  width: '100%',
+  height: '100%',
+  marginTop: '33px',
+  borderRadius: '3px',
+  position: 'relative'
+}
+
+const image = {
+  width: '100%',
+  border: 'solid 1px #e2e8f0',
+  borderRadius: '3px'
+}

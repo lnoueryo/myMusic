@@ -102,12 +102,6 @@ const icon = {
   alignItems: 'end'
 }
 
-const buttonContainer = {
-  marginTop: 'auto',
-  justifyContent: 'end',
-  display: 'flex'
-}
-
 const leftImage = {
   minHeight: '200px',
   maxHeight: '300px',

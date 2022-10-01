@@ -25,11 +25,11 @@ export default function ArticleCards({blogs}) {
         blogs && blogs.map(blog => {
           return (
             <div className={windowX < 769 || 'flex-align-center'} css={card} key={blog.id} onClick={() => movePage(blog)}>
-              <div css={leftContent}>
+              <div css={windowX > 768 ? leftContent : leftContentSP}>
                 <img css={[leftImage, windowX < 769 && normalImage]} src={blog.src ? process.env.CATEGORY_URL + 'blog/' + blog.src : `/inoueryo.png`} />
               </div>
               <div className={windowX < 769 || 'box'} css={rightCard}>
-                <h3 className="bold font14 mb10">{blog?.title}</h3>
+                <h3 className="title font20 mb10">{blog?.title}</h3>
                 <p css={para}>{blog.description}</p>
                 <div className="box-bottom" css={buttonContainer}>
                   <LoadingButton
@@ -82,29 +82,41 @@ const leftContent = {
   maxWidth: '250px'
 }
 
+const leftContentSP = {
+  width: '100%',
+  maxWidth: 'initial'
+}
+
 const rightCard = {
   width: '100%',
   height: '100%',
-  padding: '5px 10px',
+  padding: '5px 15px',
 }
 
 const para = {
   color: '#99a9b0',
-  fontSize: '10px'
+  fontSize: '14px'
+}
+
+const icon = {
+  display: 'flex',
+  alignItems: 'end'
+}
+
+const leftImage = {
+  minHeight: '200px',
+  maxHeight: '300px',
+  objectFit: 'cover',
+  // padding: '30px'
+}
+
+const normalImage = {
+  padding: '15px',
+  maxHeight: '350px',
 }
 
 const buttonContainer = {
   marginTop: 'auto',
   justifyContent: 'end',
   display: 'flex'
-}
-
-const leftImage = {
-  minHeight: '250px',
-  objectFit: 'cover'
-}
-
-const normalImage = {
-  // maxWidth: '200px',
-  height: '200px',
 }

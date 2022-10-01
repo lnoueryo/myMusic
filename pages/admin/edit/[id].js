@@ -1,3 +1,5 @@
+/** @jsxImportSource @emotion/react */
+
 import styles from '/styles/Home.module.css'
 import { Avatar, Box, Badge, Text, Textarea, Button, useToast, Image } from '@chakra-ui/react'
 import ReactMarkdown from "react-markdown";
@@ -13,7 +15,10 @@ import { useRef } from 'react';
 import Icon from '@mdi/react'
 import { mdiCloseCircleOutline  } from '@mdi/js';
 import { useRouter } from 'next/router';
+import { FormControl, InputLabel, OutlinedInput, InputAdornment } from '@mui/material';
+
 export default function EditArticle(props) {
+  const windowX = useSelector(state => state.config.windowSize.x);
   const router = useRouter()
   let [article, allTags] = [props[0], props[1]]
   const [title, setTitle] = useState(article.title)
@@ -77,43 +82,40 @@ export default function EditArticle(props) {
   }
 
   return (
-    <div className={styles.container}>
+    <div className="container">
       {
         article &&
         <div style={{width: '100%', maxWidth: '1000px', margin: 'auto', position: 'relative', }}>
           <div style={{width: '100%%', backgroundColor: 'white', padding: '30px', marginBottom: '20px', borderRadius: '3px', filter: 'drop-shadow(0px 0px 3px rgba(0,0,0,.1))'}}>
-              {/* <div style={{marginBottom: '20px'}}>
-                <Text mb='8px'>タイトル</Text>
-                <Textarea
-                  value={title}
-                  onChange={(e) => setTitle(e.target.value)}
-                  placeholder='Here is a sample placeholder'
-                  size='sm'
-                ></Textarea>
-              </div> */}
-            <div style={{display: 'flex'}}>
-              <div style={{width: '100%'}}>
-                <div style={{marginBottom: '20px'}}>
-                  <Text mb='8px'>タイトル</Text>
-                  <Textarea
-                    value={title}
-                    onChange={(e) => setTitle(e.target.value)}
-                    placeholder='Here is a sample placeholder'
-                    size='sm'
-                  ></Textarea>
+            <div className={`flex ${windowX < 768 && 'wrap'}`}>
+              <div className="w100">
+                <div className="mb20">
+                  <FormControl fullWidth sx={{ m: 1 }}>
+                    <InputLabel htmlFor="outlined-adornment-amount">タイトル</InputLabel>
+                    <OutlinedInput
+                     style={{padding: '0'}}
+                      id="outlined-adornment-amount"
+                      value={title}
+                      onChange={(e) => setTitle(e.target.value)}
+                      label="タイトル"
+                    />
+                  </FormControl>
                 </div>
-                <div style={{marginBottom: '20px'}}>
-                  <Text mb='8px'>背景</Text>
-                  <Textarea
-                    value={description}
-                    onChange={(e) => setDescription(e.target.value)}
-                    placeholder='Here is a sample placeholder'
-                    size='sm'
-                  ></Textarea>
+                <div className="mb20">
+                  <FormControl fullWidth sx={{ m: 1 }}>
+                    <InputLabel htmlFor="outlined-adornment-amount">背景</InputLabel>
+                    <OutlinedInput
+                      style={{padding: '0'}}
+                      id="outlined-adornment-amount"
+                      value={description}
+                      onChange={(e) => setDescription(e.target.value)}
+                      label="背景"
+                    />
+                  </FormControl>
                 </div>
               </div>
-              <div style={{minWidth: '200px', padding: '0 10px', display: 'flex', flexDirection: 'column', marginBottom: '20px'}}>
-                <div style={{maxWidth: '180px', width: '100%', height: '100%', marginTop: '33px', borderRadius: '3px', position: 'relative'}}>
+              <div css={rightContainer}>
+                <div css={imageContainer}>
                   <Image src={ newSrc || srcPath(src) || "/noimage.png" } style={{width: '100%', border: 'solid 1px #e2e8f0', borderRadius: '3px'}} ref={imageRef} />
                   {
                     !!src &&
@@ -129,37 +131,37 @@ export default function EditArticle(props) {
                 <CropperModal setSrc={setNewSrc} />
               </div>
             </div>
-              <div style={{marginBottom: '20px'}}>
-                <Text mb='8px'>タグ</Text>
-                <div style={{display: 'flex', marginBottom: '8px'}}>
-                  {
-                    !tags && tags.length == 0 ? <div style={{marginRight: '10px'}}>なし</div> : tags.map(tag => {
-                      return (
-                        <div key={tag.id} style={{marginRight: '10px', borderRadius: '20px', minWidth: '120px', backgroundColor: '#f4f4f7', display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '5px 15px'}}>
-                          <div style={{display: 'flex', alignItems: 'center'}}>
-                            <Image style={{width: '24px'}} src={`/${tag.category.name}/${tag.src}`} />
-                            <div style={{padding: '0 7px', fontSize: '12px', fontWeight: 'bold'}}>{tag.name}</div>
-                          </div>
-                          <div>
-                          <Icon path={mdiCloseCircleOutline}
-                            size={0.6}
-                            color="#fb6b30"
-                            onClick={() => {removeTag(tag)}}
-                            role="mdiCloseCircleOutline"
-                          />
-                          </div>
+            <div style={{marginBottom: '20px'}}>
+              <Text mb='8px'>タグ</Text>
+              <div style={{display: 'flex', marginBottom: '8px', flexWrap: 'wrap'}}>
+                {
+                  !tags && tags.length == 0 ? <div style={{marginRight: '10px'}}>なし</div> : tags.map(tag => {
+                    return (
+                      <div key={tag.id} style={{marginRight: '10px', borderRadius: '20px', minWidth: '120px', backgroundColor: '#f4f4f7', display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '5px 15px'}}>
+                        <div style={{display: 'flex', alignItems: 'center'}}>
+                          <Image style={{width: '24px'}} src={`${process.env.CATEGORY_URL}${(tag.category.name).toLowerCase()}/${tag.src}`} />
+                          <div style={{padding: '0 7px', fontSize: '12px', fontWeight: 'bold'}}>{tag.name}</div>
                         </div>
-                      )
-                    })
-                  }
-                  {/* <Button colorScheme='blue' size='sm'>追加</Button> */}
-                </div>
-                <SelectTag tags={unselectedTags(allTags, tags)} func={addTag} selectedTags={tags}></SelectTag>
+                        <div>
+                        <Icon path={mdiCloseCircleOutline}
+                          size={0.6}
+                          color="#fb6b30"
+                          onClick={() => {removeTag(tag)}}
+                          role="mdiCloseCircleOutline"
+                        />
+                        </div>
+                      </div>
+                    )
+                  })
+                }
+                {/* <Button colorScheme='blue' size='sm'>追加</Button> */}
               </div>
-              <AlertDialog buttonText="更新" func={() => {update({id: article.id, title, description, content, tags, created_at, src: article.src, newSrc, isDelete: article.src && src && !!newSrc})}}></AlertDialog>
+              <SelectTag tags={unselectedTags(allTags, tags)} func={addTag} selectedTags={tags}></SelectTag>
+            </div>
+            <AlertDialog buttonText="更新" func={() => {update({id: article.id, title, description, content, tags, created_at, src: article.src, newSrc, isDelete: article.src && src && !!newSrc})}}></AlertDialog>
           </div>
           <div style={{display: 'flex', justifyContent: 'space-between'}}>
-            <div style={{width: '48%', backgroundColor: 'white', padding: '30px', borderRadius: '3px', filter: 'drop-shadow(0px 0px 3px rgba(0,0,0,.1))'}}>
+            <div style={{width: '48%', backgroundColor: 'white', padding: windowX < 768 ? 0 : '30px', borderRadius: '3px', filter: 'drop-shadow(0px 0px 3px rgba(0,0,0,.1))'}}>
               <Text mb='8px'>背景</Text>
               <Textarea
                 value={description}
@@ -231,3 +233,20 @@ const markdownComponents = {
     );
   },
 };
+
+const rightContainer = {
+  minWidth: '200px',
+  padding: '0 10px',
+  display: 'flex',
+  flexDirection: 'column',
+  marginBottom: '20px'
+}
+
+const imageContainer = {
+  maxWidth: '180px',
+  width: '100%',
+  height: '100%',
+  marginTop: '33px',
+  borderRadius: '3px',
+  position: 'relative'
+}
