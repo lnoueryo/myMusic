@@ -17,7 +17,7 @@ describe('The Overlay component', () => {
     );
 
     const overlay = screen.queryByText('HTML').closest('div');
-    expect(getComputedStyle(overlay).getPropertyValue('transform')).toBe('translateY(0)');
+    expect(getComputedStyle(overlay).getPropertyValue('bottom')).toBe('0%');
 
   });
 
@@ -29,7 +29,7 @@ describe('The Overlay component', () => {
     );
 
     const overlay = screen.queryByText('HTML').closest('div');
-    expect(getComputedStyle(overlay).getPropertyValue('transform')).toBe('translateY(101%)');
+    expect(getComputedStyle(overlay).getPropertyValue('bottom')).toBe('-100%');
 
   });
 
