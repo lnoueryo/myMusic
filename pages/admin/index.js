@@ -15,8 +15,15 @@ export default function Admin(props) {
   const moveCreatePage = () => router.push('/admin/create');
 
   const searchBlogs = (blogs) => {
-    return blogs?.length != 0 ? blogs.filter(blog => !searchWord || blog.title.includes(searchWord) || blog.description.includes(searchWord)) : []
+    return blogs?.length != 0 ? blogs.filter(blog => !searchWord || normalize(blog.title).includes(searchWord) || normalize(blog.description).includes(searchWord)) : []
   };
+
+  const normalize = (text) => {
+    return text.replace(/[\u30a1-\u30f6]/g, function(match) {
+      var chr = match.charCodeAt(0) - 0x60;
+      return String.fromCharCode(chr);
+    });
+  }
 
   return (
     <section>
@@ -39,7 +46,7 @@ export default function Admin(props) {
               fullWidth
                 id="outlined-name"
                 label="search"
-                onChange={(e) => setSearchWord(e.target.value)}
+                onChange={(e) => setSearchWord(normalize(e.target.value))}
               />
           </div>
           {blogs && <BlogAdminCards blogs={searchBlogs(blogs)} />}
