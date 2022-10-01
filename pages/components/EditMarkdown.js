@@ -31,6 +31,9 @@ export default function CreateArticle({func, props}) {
   const [newSrc, setNewSrc] = useState()
   const [created_at, setCreatedAt] = useState(article.created_at)
   const imageRef = useRef(null);
+  const getNewSrc = (src) => {
+    setNewSrc(src)
+  }
 
 
   const unselectedTags = (unselectedTags, tags) => {
@@ -101,7 +104,7 @@ export default function CreateArticle({func, props}) {
                 />
               }
             </div>
-            <CropperModal setSrc={setNewSrc} />
+            <CropperModal setSrc={getNewSrc} />
           </div>
         </div>
         <div style={{marginBottom: '20px'}}>
