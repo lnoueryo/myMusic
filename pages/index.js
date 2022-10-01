@@ -13,18 +13,18 @@ export default function Home(categories) {
             {
               categories && Object.values(categories).map(category => {
                 return (
-                  <>
+                  <div key={category.id}>
                     <h3 className="title">{category.name}</h3>
                     <div className="container">
                       <div className="content-container">
                         <div css={contentContainer}>
                           <div className="flex justify-center wrap">
-                            <CategoryCards key={category.id} {...category} />
+                            <CategoryCards {...category} />
                           </div>
                         </div>
                       </div>
                     </div>
-                  </>
+                  </div>
                 )
               })
             }
