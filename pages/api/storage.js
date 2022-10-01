@@ -1,12 +1,10 @@
 const {Storage} = require('@google-cloud/storage');
 const db = require('../../modules/database')
 const handler = async(req, res) => {
-  const keyFilename = '{キーとなるJSONファイルのパス}';
   const bucketName = 'tech-blog-static';
   const storage = new Storage();
   const bucket = storage.bucket(bucketName);
-  // const storage = new Storage({keyFilename: keyFilename});
-  let responseJson = {src: ''}
+  let responseJson = {src: req.body.src}
   if(req.body.isDelete) {
     try {
       await deleteImage(req, bucket)
@@ -32,8 +30,11 @@ const handler = async(req, res) => {
 }
 
 const uploadImage = async(req, bucket, filename) => {
-  const blob = bucket.file(filename);
-  await blob.save(toBlob(req.body.newSrc)) // バイナリデータを指定
+  const path = 'blog/' + filename;
+  const blob = bucket.file(path);
+  await blob.save(toBlob(req.body.newSrc)).then((err) => {
+    console.error("The file is not saved", err);
+  }); // バイナリデータを指定
   const responseJson = {
     src: filename,
     name: `https://storage.googleapis.com/tech-blog-static/blog/${filename}`

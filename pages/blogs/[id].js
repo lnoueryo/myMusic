@@ -4,6 +4,7 @@ import ReactMarkdown from "react-markdown";
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter'
 import rehypeRaw from "rehype-raw";
 import ProfileCard from '../components/ProfileCard';
+import Markdown from "../components/Markdown";
 
 const markdownComponents = {
   pre: (pre) => {
@@ -17,18 +18,22 @@ const markdownComponents = {
     const matchResult = code.props.className?.match(/language-(\w+)(:(.+))?/);
     const language = matchResult?.[1] || "";
     const filename = matchResult?.[3] || undefined;
-
     return (
-      <SyntaxHighlighter
-        language={language}
-        // ファイル名がある場合、表示用の余白を作る
-        customStyle={filename && { paddingTop: "2.5rem" }}
-        showLineNumbers
-        // CSSの擬似要素を使ってファイル名を表示させるため
-        data-filename={filename}
-      >
-        {code.props.children[0]}
-      </SyntaxHighlighter>
+      <div style={{margin: '10px 0'}}>
+        <div style={{backgroundColor: '#f5f2f0', fontWeight: 'bold', padding: '10px 0 0 20px'}}>
+          {filename}
+        </div>
+        <SyntaxHighlighter
+          language={language}
+          // ファイル名がある場合、表示用の余白を作る
+          customStyle={{ margin: 0 }}
+          showLineNumbers
+          // CSSの擬似要素を使ってファイル名を表示させるため
+          filename={filename}
+        >
+          {code.props.children[0].replace(/\'\'/g, '\'')}
+        </SyntaxHighlighter>
+      </div>
     );
   },
 };
@@ -42,12 +47,7 @@ export default function Blogs(blog) {
             <div className="w100" css={leftContent}>
               <h2 className="font20 bold mb20">{blog.title}</h2>
               <p className="font14 mb20">{blog.description}</p>
-                <ReactMarkdown
-                  components={markdownComponents}
-                  rehypePlugins={[rehypeRaw]}
-                >
-                  {blog.content}
-                </ReactMarkdown>
+              <Markdown content={blog.content} />
             </div>
             {
               windowX > 1060 &&
