@@ -1,43 +1,66 @@
-import { useDisclosure, AlertDialog, AlertDialogOverlay, AlertDialogContent, AlertDialogHeader, AlertDialogCloseButton, AlertDialogBody, AlertDialogFooter, Button} from '@chakra-ui/react'
-import { useRef } from 'react'
 
-export default function Dialog({buttonText, func}) {
-  const { isOpen, onOpen, onClose } = useDisclosure()
-  const cancelRef = useRef()
-  const excuteRef = useRef()
+import Button from '@mui/material/Button';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogTitle from '@mui/material/DialogTitle';
+import Snackbar from '@mui/material/Snackbar';
+import { useState } from 'react';
+
+export default function FormDialog({buttonText, func}) {
+  let message = '更新しました'
+  let color = 'success'
+  const [open, setOpen] = useState(false);
+  const [openSnackbar, setOpenSnackbar] = useState(false);
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+  const handleSnackbarClose = () => {
+    setOpenSnackbar(false)
+  };
+
   const excuteFunc = (f) => {
-    f()
-    onClose()
+    const isSuccess = f()
+    setOpen(false)
+    if(!isSuccess) {
+      message = '更新に失敗しました';
+      color = 'error';
+    }
+    setOpenSnackbar(true)
   }
-  return (
-    <>
-      <Button colorScheme='blue' size='sm' onClick={onOpen}>{buttonText}</Button>
-      <AlertDialog
-        motionPreset='slideInBottom'
-        leastDestructiveRef={excuteRef}
-        onClose={onClose}
-        isOpen={isOpen}
-        isCentered
-        onEsc={(e) => e.key == 'Enter' && excuteFunc(func)}
-      >
-        <AlertDialogOverlay />
 
-        <AlertDialogContent>
-          <AlertDialogHeader>{buttonText}します。よろしいですか？</AlertDialogHeader>
-          <AlertDialogCloseButton />
-          <AlertDialogBody>
-          {/* {buttonText}します。よろしいですか？ */}
-          </AlertDialogBody>
-          <AlertDialogFooter>
-            <Button colorScheme='red' ref={cancelRef} onClick={onClose}>
-              No
-            </Button>
-            <Button colorScheme='blue' ref={excuteRef} ml={3} onClick={() => excuteFunc(func)}>
-              Yes
-            </Button>
-          </AlertDialogFooter>
-        </AlertDialogContent>
-      </AlertDialog>
-    </>
-  )
+  return (
+    <div>
+      <Button variant="outlined" onClick={handleClickOpen}>
+        {buttonText}
+      </Button>
+      <Dialog open={open} onClose={handleClose}>
+        <DialogTitle>Subscribe</DialogTitle>
+        <DialogContent>
+          <DialogContentText>
+          {buttonText}します。よろしいですか？
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleClose}>No</Button>
+          <Button onClick={() => excuteFunc(func)}>Yes</Button>
+        </DialogActions>
+      </Dialog>
+      <div>
+        <Snackbar
+          anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+          open={openSnackbar}
+          onClose={handleSnackbarClose}
+          message={message}
+          severity={color}
+        />
+      </div>
+    </div>
+  );
 }
