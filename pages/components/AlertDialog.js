@@ -6,11 +6,11 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import Snackbar from '@mui/material/Snackbar';
+import Alert from '@mui/material/Alert';
 import { useState } from 'react';
 
 export default function FormDialog({buttonText, func}) {
-  let message = '更新しました'
-  let color = 'success'
+  const [snackBar, setSnackBar] = useState({message: '更新しました', color: 'success'});
   const [open, setOpen] = useState(false);
   const [openSnackbar, setOpenSnackbar] = useState(false);
   const handleClickOpen = () => {
@@ -25,12 +25,11 @@ export default function FormDialog({buttonText, func}) {
     setOpenSnackbar(false)
   };
 
-  const excuteFunc = (f) => {
-    const isSuccess = f()
+  const excuteFunc = async(f) => {
+    const isSuccess = await f()
     setOpen(false)
     if(!isSuccess) {
-      message = '更新に失敗しました';
-      color = 'error';
+      setSnackBar({message: '更新に失敗しました', color: 'error'});
     }
     setOpenSnackbar(true)
   }
@@ -57,9 +56,11 @@ export default function FormDialog({buttonText, func}) {
           anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
           open={openSnackbar}
           onClose={handleSnackbarClose}
-          message={message}
-          severity={color}
-        />
+        >
+          <Alert onClose={handleSnackbarClose} severity={snackBar.color} sx={{ width: '100%' }}>
+          {snackBar.message}
+          </Alert>
+        </Snackbar>
       </div>
     </div>
   );

@@ -130,7 +130,7 @@ export default function CreateArticle({func, props}) {
           </div>
           <SelectTag tags={unselectedTags(allTags, tags)} func={addTag} selectedTags={tags}></SelectTag>
         </div>
-        <AlertDialog buttonText="更新" func={() => {func({id: article.id, title, description, content, tags, created_at, src: article.src, newSrc, isDelete: article.src && !src || !!newSrc})}}></AlertDialog>
+        <AlertDialog buttonText="更新" func={() => {return func({id: article.id, title, description, content, tags, created_at, src: article.src, newSrc, isDelete: article.src && !src || !!newSrc})}}></AlertDialog>
       </div>
       <div style={{display: 'flex', justifyContent: 'space-between'}}>
         <div style={{width: '48%', backgroundColor: 'white', padding: windowX < 768 ? 0 : '30px', borderRadius: '3px', filter: 'drop-shadow(0px 0px 3px rgba(0,0,0,.1))'}}>

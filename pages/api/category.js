@@ -43,7 +43,6 @@ const index = async(req, res) => {
     })
     res.status(200).json(categories)
   } catch (error) {
-    // res.status(200).json(categories)
     console.log(error.response)
     res.status(400).json(error)
   }
