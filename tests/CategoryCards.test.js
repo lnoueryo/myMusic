@@ -35,12 +35,12 @@ describe('The CategoryCards component', () => {
 
     const overlay = screen.queryByText('HTML').closest('div');
     // before hover
-    expect(getComputedStyle(overlay).getPropertyValue('transform')).toBe('translateY(101%)');
+    expect(getComputedStyle(overlay).getPropertyValue('bottom')).toBe('-100%');
     const imgEl = screen.getByAltText(category.tags[0].name);
 
     // hover
     fireEvent.mouseOver(imgEl);
-    expect(getComputedStyle(overlay).getPropertyValue('transform')).toBe('translateY(0)');
+    expect(getComputedStyle(overlay).getPropertyValue('bottom')).toBe('0%');
   });
 
 })
