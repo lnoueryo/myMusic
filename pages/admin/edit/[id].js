@@ -29,7 +29,7 @@ export default function EditArticle(props) {
 
   return (
     <div className="container">
-      {<EditMarkdown func={update} props={props}/>}
+      {props && <EditMarkdown func={update} props={props}/>}
     </div>
   )
 }

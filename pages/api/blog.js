@@ -104,7 +104,7 @@ const update = async(req, res) => {
   const date = new Date(req.body.created_at).toISOString().replace(/T/, ' ').replace(/\..+/, '')
   let blogQuery =
   `
-  UPDATE blogs SET title = "${req.body.title}", description = "${req.body.description}", content = "${content}", src = "${req.body.src}", created_at = "${date}" WHERE id = ${req.body.id};
+  UPDATE blogs SET title = "${req.body.title}", description = "${req.body.description}", content = "${content}", src = "${req.body.src || ''}", created_at = "${date}" WHERE id = ${req.body.id};
   `
   try {
     response = await db.transaction([deleteTagQuery, blogQuery, tagQuery])

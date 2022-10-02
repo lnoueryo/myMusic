@@ -1,9 +1,6 @@
 /** @jsxImportSource @emotion/react */
 
-import { Avatar, Box, Badge, Text, Textarea, Button, useToast, Image } from '@chakra-ui/react'
-import ReactMarkdown from "react-markdown";
-import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter'
-import rehypeRaw from "rehype-raw";
+import { Text, Image } from '@chakra-ui/react'
 import { useRef, useState } from 'react';
 import axios from '/modules/httpclient';
 import AlertDialog from '../components/AlertDialog';
@@ -12,14 +9,13 @@ import CropperModal from '../components/CropperModal';
 import Icon from '@mdi/react'
 import { mdiCloseCircleOutline  } from '@mdi/js';
 import { useSelector } from 'react-redux';
-import { FormControl, InputLabel, OutlinedInput, InputAdornment } from '@mui/material';
+import { FormControl, InputLabel, OutlinedInput } from '@mui/material';
 import Markdown from '../components/Markdown';
 
 
-export default function CreateArticle({func, props}) {
+export default function EditMarkdown({func, props}) {
   const windowX = useSelector(state => state.config.windowSize.x);
-  let [allTags, article] = [props[0], props[1]]
-  // console.log(article)
+  let [allTags, article] = [props[0], props[1] || {title: '', description: '', content: ''}]
   if(!article) {
     article = {title: '', description: '', content: ''}
   }
@@ -35,9 +31,7 @@ export default function CreateArticle({func, props}) {
     setNewSrc(src)
   }
 
-
   const unselectedTags = (unselectedTags, tags) => {
-    console.log(unselectedTags)
     let set = new Set(tags.map(tag => tag.id));
     return unselectedTags.filter(unselectedTag => {
       return !set.has(unselectedTag.id)
@@ -55,14 +49,13 @@ export default function CreateArticle({func, props}) {
   }
 
   const srcPath = (src) => {
-    console.log(src)
     return !!src && 'https://storage.googleapis.com/tech-blog-static/blog/' + src;
   }
 
   return (
-    article &&
-    <div style={{width: '100%', maxWidth: '1000px', margin: 'auto', position: 'relative', }}>
-      <div style={{width: '100%%', backgroundColor: 'white', padding: '30px', marginBottom: '20px', borderRadius: '3px', filter: 'drop-shadow(0px 0px 3px rgba(0,0,0,.1))'}}>
+    allTags &&
+    <div css={container}>
+      <div css={contentContainer}>
         <div className={`flex ${windowX < 768 && 'wrap'}`}>
           <div className="w100">
             <div className="mb20">
@@ -150,9 +143,23 @@ export default function CreateArticle({func, props}) {
   )
 }
 
-CreateArticle.getInitialProps = async ({query}) => {
-  const tags = await axios.get('/api/tag');
-  return tags.data;
+EditMarkdown.getInitialProps = async ({query}) => {
+  return [];
+}
+
+const container = {
+  width: '100%',
+  maxWidth: '1000px',
+  margin: 'auto',
+  position: 'relative'
+}
+
+const contentContainer = {
+  backgroundColor: 'white',
+  padding: '30px',
+  marginBottom: '20px',
+  borderRadius: '3px',
+  filter: 'drop-shadow(0px 0px 3px rgba(0,0,0,.1))'
 }
 
 const rightContainer = {

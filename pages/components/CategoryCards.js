@@ -3,7 +3,6 @@
 import { useRouter } from 'next/router';
 import Overlay from './Overlay'
 import { useState } from 'react'
-import { HelpOutline } from '@mui/icons-material';
 
 const MAX_CARD_NUM = 3;
 
@@ -19,7 +18,7 @@ export default function CategoryCards(category) {
     const fakeNum = MAX_CARD_NUM - ((category.tags?.length || 0) % MAX_CARD_NUM);
     for (let i = 0; i < fakeNum; i++) {
       const key = category.name + 'fake' + i
-      category.tags.push({id: '', name: key})
+      category.tags?.push({id: '', name: key})
     }
     return category
   }

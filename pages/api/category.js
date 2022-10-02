@@ -81,7 +81,6 @@ const show = async(req, res) => {
       WHERE ct.name = "${req.query.name}"
       GROUP BY ct.id, ct.name;
     `)
-    console.log(response)
     const category = response.map(category => {
       const blogObj = {}
       JSON.parse(category.blogs).forEach(blog => {
